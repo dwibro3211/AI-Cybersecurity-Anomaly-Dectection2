@@ -1,0 +1,3 @@
+Model,Precision,Recall,F1
+Isolation Forest V2,0.0,0.0,0.0
+Random Forest,0.9833659491193738,0.9935739001482946,0.988443570199164
