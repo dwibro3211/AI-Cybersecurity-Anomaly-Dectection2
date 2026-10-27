@@ -1,62 +1,97 @@
 # AI-Powered Cybersecurity Anomaly Detection
 
-An educational machine learning portfolio project demonstrating how unsupervised algorithms can identify unusual patterns in **synthetic** network traffic.
+## Project Overview
 
-## What it does
+A Python-based machine learning portfolio project exploring network intrusion detection using supervised and unsupervised learning techniques.
 
-- Generates 2,500 reproducible simulated traffic records, including 125 deliberately unusual examples.
-- Standardizes six numerical network features.
-- Fits **Isolation Forest** to flag anomalies, **K-Means** to discover groups, and **DBSCAN** to find density-based noise points.
-- Uses **PCA** to visualize high-dimensional data in two dimensions.
-- Compares two anomaly-flagging methods against the *synthetic* ground-truth labels with precision, recall and F1.
-- Exports a chart, evaluation table and analyzed CSV.
+The project evaluates network traffic patterns from the CIC-IDS2017 dataset, comparing Isolation Forest and Random Forest models for identifying potentially malicious network activity.
 
-## Run locally
+## Technologies Used
 
-Requires Python 3.10 or newer.
+- Python
+- Pandas and NumPy
+- Scikit-learn
+- Matplotlib
+- Machine Learning
+- Network Traffic Analysis
+- Data Preprocessing
+- Model Evaluation
+
+## Dataset
+
+**Source:** [CIC-IDS2017 — University of New Brunswick](https://www.unb.ca/cic/datasets/ids-2017.html)
+
+The Tuesday traffic dataset contains 445,909 records, including:
+
+- 432,074 benign traffic records
+- 7,938 FTP-Patator attack records
+- 5,897 SSH-Patator attack records
+
+An exploratory sample of 11,743 records was used for model development and comparison.
+
+## Machine Learning Models
+
+### Isolation Forest
+
+An unsupervised anomaly detection model trained on benign traffic.
+
+Two versions were evaluated using different network feature sets. Neither version successfully identified attack records under the default anomaly threshold in this experiment.
+
+### Random Forest
+
+A supervised classification model trained using labeled benign and attack records.
+
+The model achieved the following preliminary results on the sampled test set:
+
+| Metric | Result |
+|---|---|
+| Accuracy | 98.67% |
+| Attack Precision | 98.34% |
+| Attack Recall | 99.36% |
+| Attack F1 Score | 98.84% |
+
+**Confusion Matrix Results:**
+
+- True Negatives: 1,466
+- False Positives: 34
+- False Negatives: 13
+- True Positives: 2,010
+
+## Key Findings
+
+Random Forest substantially outperformed Isolation Forest in this experiment. The supervised classifier successfully learned distinctions between the labeled traffic categories, while Isolation Forest struggled to flag attacks as statistical anomalies.
+
+The results demonstrate the importance of selecting appropriate models, evaluating false positives and false negatives, and understanding the limitations of anomaly detection.
+
+## Project Limitations
+
+The dataset was deliberately sampled and split randomly at the record level. Related network flows may appear in both training and testing data, potentially inflating reported performance.
+
+These results are preliminary experimental findings and should not be interpreted as production intrusion-detection performance.
+
+Future improvements include capture-separated evaluation, stronger unsupervised baselines, additional attack categories, and testing on unseen network environments.
+
+## Visualizations
+
+The project includes:
+
+- Model precision, recall, and F1 comparison
+- Random Forest confusion matrix
+- Synthetic traffic anomaly visualization
+
+## Running the Project
+
+Install the Python dependencies listed in `requirements.txt`, then run:
 
 ```bash
-python -m venv .venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows PowerShell:
-# .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-python src/run_analysis.py
+python train_real_model.py
+python train_real_model_v2.py
+python train_random_forest.py
+python create_comparison_charts.py
 ```
 
-Outputs are written to `outputs/`. Input data is generated in `data/` on each run with a fixed seed.
+The real-data training scripts require `data/real_traffic_sample.csv`, which is derived from the CIC-IDS2017 Tuesday dataset and is not included in this repository.
 
-## Project structure
+## Project Purpose
 
-- `src/run_analysis.py` — data generation, preprocessing, training, evaluation, plotting
-- `data/synthetic_network_traffic.csv` — generated synthetic input data
-- `outputs/analyzed_traffic.csv` — records with model results
-- `outputs/evaluation_metrics.csv` — precision, recall and F1
-- `outputs/anomaly_visualization.png` — PCA projection of flagged records
-
-## Model roles
-
-| Technique | Role |
-| --- | --- |
-| Isolation Forest | Unsupervised anomaly detection |
-| K-Means | Clustering into three groups; cluster IDs are not attack labels |
-| DBSCAN | Density-based clustering; label -1 is treated as a noise flag |
-| PCA | Two-dimensional visualization, not an attack classifier |
-
-## Limitations and responsible interpretation
-
-This is a **demonstration, not a deployed intrusion detection system**. The records are artificially generated, and anomalous does not necessarily mean malicious. The labels were created during synthetic data generation and are used only for demonstration metrics, not to train the unsupervised models. Performance on this dataset does not establish performance on real network traffic. No cloud infrastructure, production deployment, real traffic capture, or multi-GPU training is included.
-
-## Suggested next improvements
-
-1. Compare against an appropriately licensed, publicly available intrusion-detection dataset.
-2. Introduce separate training and evaluation datasets and tune parameters without using evaluation labels.
-3. Add a reproducible notebook, unit tests, and a simple read-only dashboard.
-4. Write up false positives, feature selection, and practical deployment considerations.
-
-## Skills demonstrated
-
-Python, Pandas, NumPy, scikit-learn, feature scaling, unsupervised machine learning, anomaly detection, visualization, evaluation, and technical documentation.
-
-**Portfolio note:** Review and run the code yourself before describing this as a completed personal project in an application.
+This educational portfolio project demonstrates practical experience in Python programming, machine learning experimentation, network traffic analysis, model evaluation, and technical documentation.
