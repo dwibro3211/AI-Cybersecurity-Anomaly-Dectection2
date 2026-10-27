@@ -81,16 +81,49 @@ The project includes:
 
 ## Running the Project
 
-Install the Python dependencies listed in `requirements.txt`, then run:
+### 1. Install dependencies
+
+Requires Python 3.10 or newer.
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 2. Download the dataset
+
+Download the CIC-IDS2017 Tuesday traffic CSV from the [University of New Brunswick dataset page](https://www.unb.ca/cic/datasets/ids-2017.html).
+
+Place the extracted `Tuesday-WorkingHours...csv` file inside the project's `data/` folder.
+
+### 3. Prepare the dataset
+
+```bash
+python prepare_dataset.py
+```
+
+This generates `data/real_traffic_sample.csv` using the project's sampling procedure.
+
+### 4. Train the models
 
 ```bash
 python train_real_model.py
 python train_real_model_v2.py
 python train_random_forest.py
+```
+
+### 5. Generate evaluation visualizations
+
+```bash
 python create_comparison_charts.py
 ```
 
-The real-data training scripts require `data/real_traffic_sample.csv`, which is derived from the CIC-IDS2017 Tuesday dataset and is not included in this repository.
+The training scripts save predictions in `outputs/`, and the visualization script generates model comparison charts and evaluation metrics.
+
+### Evaluation Notes
+
+The sample contains an intentionally altered balance of benign and attack traffic. Model results are preliminary and based on a random record-level split, which may overestimate performance due to similarities between network flows.
+
+The project is intended for educational research and portfolio demonstration, not production intrusion detection.
 
 ## Project Purpose
 
